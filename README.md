@@ -24,12 +24,12 @@ They are to be executed as follows:
 
 1. ### **learn.py** ###
 
->> python3 learn.py <model_file_path> <path_to_MegaM_binary> 
+     python3 learn.py <model_file_path> <path_to_MegaM_binary> 
 
 
 2. ### **correct.py** ###
 
->> python3 correct.py <model_file_path> <test_file> <path_to_MegaM_binary> 
+     python3 correct.py <model_file_path> <test_file> <path_to_MegaM_binary> 
 
 
 ## **Program Logic:** ##
