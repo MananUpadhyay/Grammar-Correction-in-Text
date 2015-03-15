@@ -11,17 +11,19 @@ def formatInput(inFile,outFile,mSet):
     ou = open(outFile,'w')
     tr = open(inFile,'r')
     for line in tr:
-        # print(".")
+        print(".")
         # create tags;
         # toTagLine = nltk.word_tokenize(line)
         # tagList = nltk.pos_tag(toTagLine)
+        if(line == "\n"):
+            continue
 
         splitLine = line.split()
         tagList = nltk.pos_tag(splitLine)
 
         splitLineSet = set()
         for item in splitLine:
-            splitLineSet.add(str(item))
+            splitLineSet.add(str(item.lower()))
 
         if ("its" not in splitLineSet and
             "it\'s" not in splitLineSet and
@@ -94,9 +96,11 @@ def formatInput(inFile,outFile,mSet):
                     nextWord2 = str(splitLine[i+2])
 
             # create outTagLine and write;
-            tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"curClass:"+curClassLabel +" "+"suffix2:"+suffix2+" "+"suffix3:"+suffix3+" " + "next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+            # tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"curClass:"+curClassLabel +" "+"suffix2:"+suffix2+" "+"suffix3:"+suffix3+" " + "next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+            tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+
             outTagLine = "test" + tagLine
-            outList.append(outTagLine)
+            outList.append(curWord)
             ou.write(outTagLine + "\n")
 
     tr.close()
@@ -106,9 +110,9 @@ def formatInput(inFile,outFile,mSet):
 
 def getMegamPrediction(modelFile,formatFile,megamPath):
     # print("megam")
-    megamString = megamPath+" -nc -predict " + modelFile + " multitron " + formatFile
+    megamString = megamPath+" -nc -maxi 10 -predict " + modelFile + " multitron " + formatFile
     (stdout,stderr) = subprocess.Popen(megamString,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True).communicate()
-    # print(stderr)
+    print(stderr)
     if isinstance(stdout, compat.string_types):
         return stdout
     else:
@@ -116,13 +120,15 @@ def getMegamPrediction(modelFile,formatFile,megamPath):
 
 
 def reconstructOutput(smout,tFile,mSet):
-
+    # predOut = open("./predErr.txt",'w')
     predTagList = []
     reconList = smout.split("\n")
     # print(reconList[0])
     for reconLine in reconList:
         predTag = reconLine.split("\t")[0]
         predTagList.append(str(predTag))
+        # predOut.write(str(predTag) + "\n")
+    # predOut.close()
 
 
     trList = []
@@ -166,11 +172,14 @@ def initSet():
 
 if __name__ == '__main__':
 
-    megamPath = "./megam_0.92/./megam"
+    # megamPath = "./megam_0.92/./megam"
     modelFile = sys.argv[1]
     testFile = sys.argv[2]
+    megamPath = sys.argv[3]
+
 
     testFileFormat = "./hw3.test.format.txt"
+    # devFormat = "./hw3.dev.format.txt"
 
     mainSet = initSet()
 
@@ -178,4 +187,36 @@ if __name__ == '__main__':
     mOut = getMegamPrediction(modelFile,testFileFormat,megamPath)
     predList = reconstructOutput(mOut,testFile,mainSet)
 
+    # cc = 0
+    # correct = 0
+    # incorrect = 0
 
+    # devList = []
+    # drf = open(devFormat,'r')
+    # devOut = open("./devTags.txt",'w')
+    # for dline in drf:
+    #     dTag = str(dline.split()[0])
+    #     devList.append(dTag)
+    #     devOut.write(dTag + "\n")
+    # drf.close()
+    # devOut.close()
+
+    # if len(predList) != len(testList):
+    #     print("HAHAHA=============")
+
+
+    # if len(predList) != len(devList):
+    #     print("PRED: " +str(len(predList)))
+    #     print("DEV: " +str(len(devList)))
+    #     print("HAHAHA")
+
+    # for i in range(len(devList)):
+    #     if predList[i] == devList[i]:
+    #         correct += 1
+    #     else:
+    #         incorrect += 1
+
+    # accuracy = correct / (correct + incorrect)
+    # print(str(correct))
+    # print(str(incorrect))
+    # print(str(accuracy))

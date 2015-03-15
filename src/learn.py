@@ -10,7 +10,7 @@ def format(out,tr):
     ou = open(out,'w')
     # tr = open(train,'r')
     for line in tr:
-        # print(".")
+        print(".")
         # Skipping
         splitLineSet = set()
         for itemTuple in line:
@@ -102,7 +102,9 @@ def format(out,tr):
 
 
             # create outTagLine and write;
-            tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"curClass:"+curClassLabel +" "+"suffix2:"+suffix2+" "+"suffix3:"+suffix3+" " + "next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+            # tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"curClass:"+curClassLabel +" "+"suffix2:"+suffix2+" "+"suffix3:"+suffix3+" " + "next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+            tagLine += " "+"prev2:"+prevWord2+" "+"prevClass2:"+prevClassLabel2+" "+"prev1:"+prevWord1+" "+"prevClass1:"+prevClassLabel1+" "+"next1:"+nextWord1+" " +"nextClass1:"+nextWordClass1+" "+ "next2:"+nextWord2+" "+"nextClass2:"+nextWordClass2
+
             outTagLine = curWord + tagLine
             outList.append(outTagLine)
             ou.write(outTagLine + "\n")
@@ -112,13 +114,11 @@ def format(out,tr):
     return outList
 
 
-def readBrown():
+def readData():
     sentences = [ (sent)
                   for genre in brown.categories()
                   for sent in brown.tagged_sents(categories = genre)
     ]
-    # print(len(sentences))
-    # print(sentences[0])
     return sentences
 
 
@@ -129,14 +129,13 @@ def generateModel(formatFile,modelFile,megamPath):
 
 if __name__ == '__main__':
 
-    megamPath = "./megam_0.92/./megam"
-
     train_out = "./hw3.train.brown.out"
 
     modelFile = sys.argv[1]
+    megamPath = sys.argv[2]
 
-    brownSentTagged = readBrown()
-    trainList = format(train_out,brownSentTagged)
+    sentTagged = readData()
+    trainList = format(train_out,sentTagged)
     generateModel(train_out,modelFile,megamPath)
 
 
