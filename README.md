@@ -22,7 +22,7 @@ They are to be executed as follows:
 ## **Execution:** ##
 ------------------------------
 
-1.### ** learn.py** ###
+1. ### **learn.py** ###
 
 >> python3 learn.py <model_file_path> <path_to_MegaM_binary> 
 
@@ -53,8 +53,3 @@ A Similar approach is followed for generating features for the Test_File but wit
 -----------------------------
 
 An accuracy of about 93% is obtained.
-
-
-
-
-
