@@ -10,7 +10,7 @@ def format(out,tr):
     ou = open(out,'w')
     # tr = open(train,'r')
     for line in tr:
-        print(".")
+        # print(".")
         # Skipping
         splitLineSet = set()
         for itemTuple in line:
