@@ -11,7 +11,7 @@ def formatInput(inFile,outFile,mSet):
     ou = open(outFile,'w')
     tr = open(inFile,'r')
     for line in tr:
-        print(".")
+        # print(".")
         # create tags;
         # toTagLine = nltk.word_tokenize(line)
         # tagList = nltk.pos_tag(toTagLine)
@@ -112,7 +112,7 @@ def getMegamPrediction(modelFile,formatFile,megamPath):
     # print("megam")
     megamString = megamPath+" -nc -maxi 10 -predict " + modelFile + " multitron " + formatFile
     (stdout,stderr) = subprocess.Popen(megamString,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True).communicate()
-    print(stderr)
+    # print(stderr)
     if isinstance(stdout, compat.string_types):
         return stdout
     else:
