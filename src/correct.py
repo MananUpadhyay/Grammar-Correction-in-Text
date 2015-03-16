@@ -111,7 +111,7 @@ def formatInput(inFile,outFile,mSet):
 def getMegamPrediction(modelFile,formatFile,megamPath):
     # print("megam")
     megamString = megamPath+" -nc -maxi 10 -predict " + modelFile + " multitron " + formatFile
-    (stdout,stderr) = subprocess.Popen(megamString,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True).communicate()
+    stdout = subprocess.Popen(megamString,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True).communicate()[0]
     # print(stderr)
     if isinstance(stdout, compat.string_types):
         return stdout
